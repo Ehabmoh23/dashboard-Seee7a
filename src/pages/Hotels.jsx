@@ -45,6 +45,9 @@ function Hotels() {
 		setSingleHotel(res.data.hotel)
 		formik.setValues(res.data.hotel)
 	}
+
+
+	//soft delete
 	const [allhotelssoft, setallhotelssoft] = useState([]);
 
 	async function getHotelssoft() {
