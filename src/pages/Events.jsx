@@ -402,7 +402,7 @@ export default function Events() {
 
 									{/* popup */}
 									<div>
-										<Button className='mb-2' variant="primary" onClick={() => { handleShow(); getSingleHotel(hotel._id) }}>
+										<Button className='mb-2' variant="primary" onClick={() => { handleShow(); getSingleEvent(hotel._id) }}>
 											Share Profile by Popup
 										</Button>
 
