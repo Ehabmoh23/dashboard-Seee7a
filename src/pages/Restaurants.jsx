@@ -31,7 +31,7 @@ export default function Restaurants() {
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
 		})
-		setallresturants(res.data.allHotels)
+		setallresturants(res.data.allresturant)
 	}
 
 	//get one hotel
