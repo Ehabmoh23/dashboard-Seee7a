@@ -24,7 +24,7 @@ function Hotels() {
 
 	//get all hotels
 	async function getHotels() {
-		let res = await axios.get("https://iti-final.vercel.app/getallHotels", {
+		let res = await axios.get("https://itigradiuation.onrender.com/getallHotels", {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -35,7 +35,7 @@ function Hotels() {
 
 	//get one hotel
 	async function getSingleHotel(id) {
-		let res = await axios.get(`https://iti-final.vercel.app/getHotel/${id}`, {
+		let res = await axios.get(`https://itigradiuation.onrender.com/getHotel/${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -51,7 +51,7 @@ function Hotels() {
 	const [allhotelssoft, setallhotelssoft] = useState([]);
 
 	async function getHotelssoft() {
-		let res = await axios.get("https://iti-final.vercel.app/getSoftDeleteHotels", {
+		let res = await axios.get("https://itigradiuation.onrender.com/getSoftDeleteHotels", {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -63,7 +63,7 @@ function Hotels() {
 
 	useEffect(() => {
 		getHotels()
-		getHotelssoft()
+	getHotelssoft()
 	}, [])
 
 
@@ -75,7 +75,7 @@ function Hotels() {
 
 	function addHotels(values) {
 		setIsLoading(true)
-		axios.post(`https://iti-final.vercel.app/addHotel`, values, {
+		axios.post(`https://itigradiuation.onrender.com/addHotel`, values, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -101,7 +101,7 @@ function Hotels() {
 
 	//delete hotel 
 	function deleteHotels(id) {
-		axios.delete(`https://iti-final.vercel.app/deleteHotel/${id}`, {
+		axios.delete(`https://itigradiuation.onrender.com/deleteHotel/${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -127,7 +127,7 @@ function Hotels() {
 
 	//soft delete
 	function softdeleteHotels(id) {
-		axios.put(`https://iti-final.vercel.app/softdeleteHotel/${id}`)
+		axios.put(`https://itigradiuation.onrender.com/softdeleteHotel/${id}`)
 
 			.then(response => {
 				console.log(response);
@@ -149,7 +149,7 @@ function Hotels() {
 	//restore delete data
 
 	function restoredeleteHotels(id) {
-		axios.put(`https://iti-final.vercel.app/unDeleteHotel/${id}`)
+		axios.put(`https://itigradiuation.onrender.com/unDeleteHotel/${id}`)
 
 			.then(response => {
 				console.log(response);
@@ -178,7 +178,7 @@ function Hotels() {
 		console.log(values)
 
 		setIsLoadingupdate(true)
-		let res = await axios.patch(`https://iti-final.vercel.app/updateHotel/${values._id}`, values, {
+		let res = await axios.patch(`https://itigradiuation.onrender.com/updateHotel/${values._id}`, values, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -226,11 +226,13 @@ function Hotels() {
 		<div className="p-4 bg-gray-100">
 			<h1 className="text-2xl font-bold mb-4">Hotels</h1>
 
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(onSubmit)} method="post" enctype="multipart/form-data">
 
 				<div className="form-group mb-3">
 					<label htmlFor="userName">Hotel Name:</label>
 					<Controller
+
+					
 
 						name="hotelName"
 						control={control}
@@ -243,6 +245,26 @@ function Hotels() {
 						/>}
 					/>
 					{errors.hotelName && <p className='alert alert-danger'>{errors.hotelName.message}</p>}
+				</div>
+
+
+				<div>
+					<label>image:</label>
+					<Controller
+						name="image"
+						control={control}
+						defaultValue=""
+						rules={{
+							required: 'image is required',
+
+						}}
+						render={({ field }) => <input {...field}
+							onBlur={field.onBlur}
+							type="file" id='image'
+							className={`form-control ${field.onBlur && errors.image ? 'is-invalid' : ''}`}
+						/>}
+					/>
+					{errors.image && <p className='alert alert-danger'>{errors.image.message}</p>}
 				</div>
 
 				<div>
@@ -333,7 +355,7 @@ function Hotels() {
 				<table className="min-w-full bg-white rounded-lg">
 					<thead>
 						<tr>
-							<th className="px-4 py-2">Image</th>
+							
 							<th className="px-4 py-2">Name</th>
 							<th className="px-4 py-2">phone</th>
 							<th className="px-4 py-2">adress</th>
@@ -345,9 +367,9 @@ function Hotels() {
 					<tbody>
 						{allhotels.map((hotel, index) => (
 							<tr key={index}>
-								<td>
-									<img src={hotel.imageUrl} alt={hotel.hotelName} className="h-16 w-16 rounded-circle object-cover" />
-								</td>
+								{/* <td>
+									<img src={hotel.image} alt={hotel.hotelName} className="h-16 w-16 rounded-circle object-cover" />
+								</td> */}
 								<td>
 									{hotel.hotelName}
 								</td>
