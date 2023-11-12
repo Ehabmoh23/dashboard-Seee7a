@@ -69,7 +69,7 @@ function Hotels() {
 
 	//add hotel
 
-	const { control, handleSubmit, formState: { errors } } = useForm();
+	const { control, handleSubmit,setValue, formState: { errors } } = useForm();
 	const [isLoading, setIsLoading] = useState(false);
 	const [apiError, setApiError] = useState("");
 
@@ -170,7 +170,7 @@ function Hotels() {
 
 
 	//update hotel
-
+	const [previewImage, setPreviewImage] = useState(null);
 	const [isLoadingupdate, setIsLoadingupdate] = useState(false);
 	const [apiErrorupdate, setApiErrorupdate] = useState("");
 
@@ -251,19 +251,57 @@ function Hotels() {
 				<div>
 					<label>image:</label>
 					<Controller
-						name="image"
-						control={control}
-						defaultValue=""
-						rules={{
-							required: 'image is required',
+        name="image"
+        control={control}
+        defaultValue={undefined}
+        rules={{
+          
+        }}
+        render={({ field, fieldState }) => (
+          <div>
+            <input
+              {...field}
+              onChange={(e) => {
+                // Handle file change
+                const selectedFile = e.target.files[0];
+                console.log('Selected file:', selectedFile);
 
-						}}
-						render={({ field }) => <input {...field}
-							onBlur={field.onBlur}
-							type="file" id='image'
-							className={`form-control ${field.onBlur && errors.image ? 'is-invalid' : ''}`}
-						/>}
-					/>
+                // Update preview image
+                if (selectedFile) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setPreviewImage(reader.result);
+                  };
+                  reader.readAsDataURL(selectedFile);
+				  
+                } else {
+                  setPreviewImage(null);
+                }
+			setValue('image', previewImage)
+
+                // Perform additional actions as needed
+                // You can also set the value in the form state using setValue
+              }}
+              onBlur={field.onBlur}
+              type="file"
+              id="image"
+			
+              className={`form-control ${field.onBlur && fieldState?.error ? 'is-invalid' : ''}`}
+            />
+            {fieldState?.error && <span style={{ color: 'red' }}>{fieldState.error.message}</span>}
+
+            {/* Display preview image */}
+            {previewImage && (
+              <img
+                src={previewImage}
+                alt="Preview"
+			
+                style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '200px' }}
+              />
+            )}
+          </div>
+        )}
+      />
 					{errors.image && <p className='alert alert-danger'>{errors.image.message}</p>}
 				</div>
 
