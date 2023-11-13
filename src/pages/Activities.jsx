@@ -1,139 +1,134 @@
 import axios from 'axios';
-import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Controller, useForm } from 'react-hook-form';
+import { useFormik } from 'formik';
 
 export default function Activities() {
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => { setShow(true) };
-	const [Activities, setActivities] = useState([]);
-	const [newActivitie, setNewActivitie] = useState({
-	  name: '',
-	  phone: '',
-	  location: '',
-	  imageUrl: '',
-		price :''
-
+	const [hotels, setHotels] = useState([]);
+	const [newHotel, setNewHotel] = useState({
+		hotelName: '',
+		phone: '',
+		location: '',
+		imageUrl: '',
 	});
-  
-	const [allplaces, setallplaces] = useState([]);
-	const [singleplaces, setSingleplaces] = useState([]);
 
-//get all places
-async function getplaces() {
-	let res = await axios.get("https://iti-final.vercel.app/getallvisitplace", {
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + localStorage.getItem("token")
-		}
-	})
-	setallplaces(res.data.allplace)
-}
+	const [allhotels, setallhotels] = useState([]);
+	const [singleHotel, setSingleHotel] = useState([]);
 
-//get one place
-async function getSinglePlace(id) {
-	let res = await axios.get(`https://iti-final.vercel.app/getvisitplace/${id}`, {
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + localStorage.getItem("token")
-		}
-	})
-	console.log(res.data.place)
-	setSingleplaces(res.data.place)
-	formik.setValues(res.data.place)
-}
-
-
-
-//soft delete
-const [allplacesoft, setallplacesoft] = useState([]);
-
-async function getplacessoft() {
-	let res = await axios.get("https://iti-final.vercel.app/getSoftDeletePlaces", {
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + localStorage.getItem("token")
-		}
-	})
-	setallplacesoft(res.data.getsoftdellPlace)
-}
-
-
-useEffect(() => {
-	getplaces()
-	getplacessoft()
-}, [])
-
-
-
-//add car
-
-const { control, handleSubmit, formState: { errors } } = useForm();
-const [isLoading, setIsLoading] = useState(false);
-const [apiError, setApiError] = useState("");
-
-function addPlaces(values) {
-	setIsLoading(true)
-	axios.post(`https://iti-final.vercel.app/addvisitplace`, values, {
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + localStorage.getItem("token")
-		}
+	//get all hotels
+	async function getHotels() {
+		let res = await axios.get("https://itigradiuation.onrender.com/getallvisitplace", {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
+			}
+		})
+		setallhotels(res.data.allplace)
 	}
 
-	).then((data) => {
-		console.log(data)
-		if (data.data.message == "Added Success") {
-			setIsLoading(false)
-
-		}
-	}).catch((err) => {
-		console.log(err.response.data.message)
-		setApiError(err.response.data.message)
-		setIsLoading(false)
-	})
-}
-const onSubmit = (values) => {
-	addPlaces(values)
-	console.log(values);
-};
-
-
-
-//delete car
-function deleteplaces(id) {
-	axios.delete(`https://iti-final.vercel.app/deletevisitplace/${id}`, {
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + localStorage.getItem("token")
-		}
-	})
-
-		.then(response => {
-			console.log(response);
-		}).catch(error => {
-			if (error.response) {
-				console.log(error.response.data);
-				console.log(error.response.status);
-				console.log(error.response.headers);
-			} else if (error.request) {
-				console.log(error.request);
-			} else {
-				console.log('Error', error.message);
+	//get one hotel
+	async function getSingleHotel(id) {
+		let res = await axios.get(`https://itigradiuation.onrender.com/getvisitplace/${id}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
-			console.log(error.config);
-		});
+		})
+		console.log(res.data.place)
+		setSingleHotel(res.data.place)
+		formik.setValues(res.data.place)
+	}
 
-}
+
+	//get soft delete
+	const [allhotelssoft, setallhotelssoft] = useState([]);
+
+	async function getHotelssoft() {
+		let res = await axios.get("https://itigradiuation.onrender.com/getSoftDeletePlaces", {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
+			}
+		})
+		setallhotelssoft(res.data.getsoftdellPlace)
+	}
 
 
+	useEffect(() => {
+		getHotels()
+	getHotelssoft()
+	}, [])
+
+
+	//add hotel
+
+	const { control, handleSubmit,setValue, formState: { errors } } = useForm();
+	const [isLoading, setIsLoading] = useState(false);
+	const [apiError, setApiError] = useState("");
+
+	function addHotels(values) {
+		setIsLoading(true)
+		axios.post(`https://itigradiuation.onrender.com/addvisitplace`, values, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
+			}
+		}
+
+		).then((data) => {
+			console.log(data)
+			if (data.data.message == "Added Success") {
+				setIsLoading(false)
+
+			}
+		}).catch((err) => {
+			console.log(err.response.data.message)
+			setApiError(err.response.data.message)
+			setIsLoading(false)
+		})
+	}
+	const onSubmit = (values) => {
+		values.image = document.getElementById('image').files[0];
+		addHotels(values)
+		console.log(values);
+	};
+
+	//delete hotel 
+	function deleteHotels(id) {
+		axios.delete(`https://itigradiuation.onrender.com/deletevisitplace/${id}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
+			}
+		})
+
+			.then(response => {
+				console.log(response);
+			}).catch(error => {
+				if (error.response) {
+					console.log(error.response.data);
+					console.log(error.response.status);
+					console.log(error.response.headers);
+				} else if (error.request) {
+					console.log(error.request);
+				} else {
+					console.log('Error', error.message);
+				}
+				console.log(error.config);
+			});
+
+	}
 
 	//soft delete
-	function softdeletePlaces(id) {
-		axios.put(`https://iti-final.vercel.app/softdeletePlace/${id}`)
+	function softdeleteHotels(id) {
+		axios.put(`https://itigradiuation.onrender.com/softdeletePlace/${id}`)
 
 			.then(response => {
 				console.log(response);
@@ -149,13 +144,13 @@ function deleteplaces(id) {
 				}
 				console.log(error.config);
 			});
+
 	}
 
-	
 	//restore delete data
 
-	function restoredeletePlaces(id) {
-		axios.put(`https://iti-final.vercel.app/unDeletePlace/${id}`)
+	function restoredeleteHotels(id) {
+		axios.put(`https://itigradiuation.onrender.com/unDeletePlace/${id}`)
 
 			.then(response => {
 				console.log(response);
@@ -171,21 +166,27 @@ function deleteplaces(id) {
 				}
 				console.log(error.config);
 			});
+
 	}
 
-	
-	//update Place
 
+	//update hotel
+	const [previewImage, setPreviewImage] = useState(null);
+	const [editpreviewImage, seteditPreviewImage] = useState(null);
 	const [isLoadingupdate, setIsLoadingupdate] = useState(false);
 	const [apiErrorupdate, setApiErrorupdate] = useState("");
 
-	async function updatePlaces(values) {
+	async function updateHotels(values) {
+		values.image = document.getElementById(`editImage${values._id}`).files[0];
+		if(values.image == undefined){
+			values.image = null;
+		}
 		console.log(values)
 
 		setIsLoadingupdate(true)
-		let res = await axios.patch(`https://iti-final.vercel.app/updatevisitplace/${values._id}`, values, {
+		let res = await axios.patch(`https://itigradiuation.onrender.com/updatevisitplace/${values._id}`, values, {
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'multipart/form-data',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
 		}
@@ -194,7 +195,10 @@ function deleteplaces(id) {
 		console.log(res)
 	}
 
-	
+
+
+
+
 	// const validationSchema = Yup.object({
 	// 	name: Yup.string().max(15, "Name Must be Less Than 15 Charcter").required("Name IS Required"),
 	// 	email: Yup.string().email("Invalid Email").required("Email IS Required"),
@@ -210,36 +214,37 @@ function deleteplaces(id) {
 			address: "",
 			location: "",
 			email: "",
-			price:""
+			price:"",
+			image:null
 		},
 
 		onSubmit: (values) => {
-			updatePlaces(values)
+			console.log(values);
+			updateHotels(values)
 		}
 	});
 
 	useEffect(() => {
-		getplaces();
-		if (getplaces.length) getplaces();
-	}, [getplaces]);
+		getHotels();
+		getHotelssoft();
+		if (getHotels.length) getHotels();
+		if (getHotelssoft.length) getHotelssoft();
+	}, [getHotels,getHotelssoft]);
 
-  
-//design
-
+	// start design
 	return (
 		<div className="p-4 bg-gray-100">
-		<h1 className="text-2xl font-bold mb-4">Activites</h1>
+		<h1 className="text-2xl font-bold mb-4">Visit Places</h1>
 
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={handleSubmit(onSubmit)} method="post" enctype="multipart/form-data">
 
 			<div className="form-group mb-3">
-				<label htmlFor="visitName">Name:</label>
+				<label htmlFor="userName">Name:</label>
 				<Controller
-
 					name="visitName"
 					control={control}
 					defaultValue=""
-					rules={{ required: 'Name is required' }}
+					rules={{ required: 'Hotel Name is required' }}
 					render={({ field }) => <input {...field}
 						onBlur={field.onBlur}
 						type="text" id='visitName'
@@ -247,6 +252,68 @@ function deleteplaces(id) {
 					/>}
 				/>
 				{errors.visitName && <p className='alert alert-danger'>{errors.visitName.message}</p>}
+			</div>
+
+
+			<div>
+				<label>image:</label>
+				<Controller
+	name="image"
+	control={control}
+	defaultValue={undefined}
+	rules={{
+	  
+	}}
+	render={({ field, fieldState }) => (
+	  <div>
+		<input
+		  {...field}
+		  onChange={(e) => {
+			// Handle file change
+			const selectedFile = e.target.files[0];
+			console.log('Selected file:', selectedFile);
+
+			// Update preview image
+			if (selectedFile) {
+			  const reader = new FileReader();
+			  reader.onloadend = () => {
+				console.log(selectedFile)
+				setPreviewImage(reader.result);
+				//setValue('image',selectedFile)
+				
+			  };
+			  reader.readAsDataURL(selectedFile);
+			  
+			} else {
+			  setPreviewImage(null);
+			}
+console.log(previewImage);
+			 setValue('image',previewImage)
+
+			// Perform additional actions as needed
+			// You can also set the value in the form state using setValue
+		  }}
+		  onBlur={field.onBlur}
+		  type="file"
+		  id="image"
+		
+		  className={`form-control ${field.onBlur && fieldState?.error ? 'is-invalid' : ''}`}
+		/>
+		{fieldState?.error && <span style={{ color: 'red' }}>{fieldState.error.message}</span>}
+
+		{/* Display preview image */}
+		{previewImage && (
+		  <img
+			src={previewImage}
+			alt="Preview"
+		
+			style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '200px' }}
+		  />
+		)}
+	  </div>
+	)}
+  />
+				{errors.image && <p className='alert alert-danger'>{errors.image.message}</p>}
 			</div>
 
 			<div>
@@ -349,30 +416,28 @@ function deleteplaces(id) {
 			</div>
 
 			<button type="submit" className="btn btn-default-outline d-block my-4 mx-auto ">
-				{isLoading ? <i className="fa fa-spin fa-spinner"></i> : <><i className="fa fa-edit"></i>Add Place </>}
+				{isLoading ? <i className="fa fa-spin fa-spinner"></i> : <><i className="fa fa-edit"></i>Add Hotel </>}
 			</button>
 		</form>
-
-
 		<div className="overflow-x-auto">
 			<table className="min-w-full bg-white rounded-lg">
 				<thead>
 					<tr>
-						<th className="px-4 py-2">Image</th>
+					<th className="px-4 py-2">Image</th>
 						<th className="px-4 py-2">Name</th>
-						<th className="px-4 py-2">phone</th>
-						<th className="px-4 py-2">adress</th>
+						<th className="px-4 py-2">Phone</th>
+						<th className="px-4 py-2">Address</th>
 						<th className="px-4 py-2">Location</th>
-						<th className="px-4 py-2">email</th>
-						<th className="px-4 py-2">price</th>
+						<th className="px-4 py-2">Email</th>
+						<th className="px-4 py-2">Price</th>
 						<th className="px-4 py-2">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					{allplaces.map((hotel, index) => (
+					{allhotels.map((hotel, index) => (
 						<tr key={index}>
 							<td>
-								<img src={hotel.imageUrl} alt={hotel.visitName} className="h-16 w-16 rounded-circle object-cover" />
+								<img src={hotel.image} alt={hotel.hotelName} className="h-16 w-16 rounded-circle object-cover" />
 							</td>
 							<td>
 								{hotel.visitName}
@@ -395,41 +460,82 @@ function deleteplaces(id) {
 								<div>
 									<button
 										className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
-										onClick={() => deleteplaces(hotel._id)}
+										onClick={() => deleteHotels(hotel._id)}
 									>
 										Delete
 									</button>
 									<button
 										className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
-										onClick={() => softdeletePlaces(hotel._id)}
+										onClick={() => softdeleteHotels(hotel._id)}
 									>
 										Trach
 									</button>
 
 
 									{/* popup */}
-									<div>
-										<Button className='mb-2' variant="primary" onClick={() => { handleShow(); getSinglePlace(hotel._id) }}>
-											Share Profile by Popup
+									<div className='dv-mod'>
+										<Button className='btn-upd'  variant="success" onClick={() => { handleShow(); getSingleHotel(hotel._id) }}>
+											Update
 										</Button>
 
 										<Modal show={show} onHide={handleClose}>
 											<Modal.Header closeButton>
-												<Modal.Title>Share User Id</Modal.Title>
+												<Modal.Title>Update</Modal.Title>
 											</Modal.Header>
 											<Modal.Body>
-												<form onSubmit={formik.handleSubmit}>
+												<form key={hotel._id} onSubmit={formik.handleSubmit}>
+												<div className="form-group mb-3">
+														<label htmlFor="userName">image</label>
+		
+														<input type="file" id={`editImage${hotel._id}`} className='form-control' onBlur={formik.handleBlur} name={`editImage${hotel._id}`} value={undefined} onChange={(e) => {formik.handleChange(e);
+			// Handle file change
+			const selectedFile = e.target.files[0];
+			console.log('Selected file:', selectedFile);
 
+			// Update preview image
+			if (selectedFile) {
+			  const reader = new FileReader();
+			  reader.onloadend = () => {
+				console.log(selectedFile)
+				seteditPreviewImage(reader.result);
+				//setValue('image',selectedFile)
+				
+			  };
+			  reader.readAsDataURL(selectedFile);
+			  
+			} else {
+			  seteditPreviewImage(null);
+			}
+console.log(editpreviewImage);
+			//   setValue('image',editpreviewImage)
+														 }} />
+																										 {editpreviewImage ? (
+		  <img
+			src={editpreviewImage}
+			alt="Preview"
+		
+			style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '200px' }}
+		  />
+		):(
+			<img
+			  src={hotel.image}
+			  alt="Preview"
+		  
+			  style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '200px' }}
+			/>
+		  )}
+														{formik.errors.image && formik.touched.image ? <div className='alert alert-danger'>
+															{formik.errors.image}
+														</div> : ""}
+													</div>
 													<div className="form-group mb-3">
-														<label htmlFor="visitName">Name</label>
+														<label htmlFor="userName">Name</label>
 														<input type="text" id='visitName' className='form-control' onBlur={formik.handleBlur} name='visitName' value={formik.values.visitName} onChange={formik.handleChange} />
 														{formik.errors.visitName && formik.touched.visitName ? <div className='alert alert-danger'>
 															{formik.errors.visitName}
 														</div> : ""}
 													</div>
-
 												
-
 													<div className="form-group mb-3">
 														<label htmlFor="password">Phone</label>
 														<input type="text" id='phone' className='form-control' onBlur={formik.handleBlur} name='phone' value={formik.values.phone} onChange={formik.handleChange} />
@@ -437,7 +543,6 @@ function deleteplaces(id) {
 															{formik.errors.phone}
 														</div> : ""}
 													</div>
-
 													<div className="form-group mb-3">
 														<label htmlFor="rePassword">address</label>
 														<input type="text" id='address' className='form-control' onBlur={formik.handleBlur} name='address' value={formik.values.address} onChange={formik.handleChange} />
@@ -445,7 +550,6 @@ function deleteplaces(id) {
 															{formik.errors.address}
 														</div> : ""}
 													</div>
-
 													<div className="form-group mb-3">
 														<label htmlFor="age">location</label>
 														<input type="text" id='location' className='form-control' name='location' onBlur={formik.handleBlur} value={formik.values.location} onChange={formik.handleChange} />
@@ -453,23 +557,20 @@ function deleteplaces(id) {
 															{formik.errors.location}
 														</div> : ""}
 													</div>
-
 													<div className="form-group mb-3">
-														<label htmlFor="email">email</label>
+														<label htmlFor="age">email</label>
 														<input type="text" id='email' className='form-control' name='email' onBlur={formik.handleBlur} value={formik.values.email} onChange={formik.handleChange} />
 														{formik.errors.email && formik.touched.email ? <div className='alert alert-danger'>
 															{formik.errors.email}
 														</div> : ""}
 													</div>
-
 													<div className="form-group mb-3">
-														<label htmlFor="price">price</label>
+														<label htmlFor="age">Price</label>
 														<input type="text" id='price' className='form-control' name='price' onBlur={formik.handleBlur} value={formik.values.price} onChange={formik.handleChange} />
 														{formik.errors.price && formik.touched.price ? <div className='alert alert-danger'>
 															{formik.errors.price}
 														</div> : ""}
 													</div>
-
 													<button type="submit" className="btn btn-default-outline d-block my-4 mx-auto rounded">
 														{isLoading ? <i className="fa fa-spin fa-spinner"></i> : <><i className="fa fa-edit"></i>Update </>}
 
@@ -478,14 +579,12 @@ function deleteplaces(id) {
 
 												</form>
 											</Modal.Body>
-
 											<Modal.Footer>
 												<Button variant="secondary" onClick={handleClose}>
 													Close
 												</Button>
 												{/* You can add more buttons here */}
 											</Modal.Footer>
-
 										</Modal>
 									</div>
 									{/* end popup */}
@@ -497,7 +596,7 @@ function deleteplaces(id) {
 			</table>
 		</div>
 
-		<h2>Trashed</h2>
+		<h1 className='trc'>Trashed</h1>
 
 		<div className="overflow-x-auto">
 			<table class="table">
@@ -505,21 +604,23 @@ function deleteplaces(id) {
 					<tr>
 						<th scope="col">Image</th>
 						<th scope="col">Name</th>
-						<th scope="col">phone</th>
+						<th scope="col">Phone</th>
 						<th scope="col">Address</th>
 						<th scope="col">Location</th>
-						<th scope="col">email</th>
-						<th scope="col">price</th>
+						<th scope="col">Email</th>
+						<th scope="col">Price</th>
 						<th scope="col">Actions</th>
 
 					</tr>
 				</thead>
 				<tbody>
 
-					{allplacesoft.map((hotell, index) => (
+					{allhotelssoft.map((hotell, index) => (
 						<tr>
-							<th scope="row">1</th>
-							<td>{hotell.carName}</td>
+							<th scope="row">
+								<img src={hotell.image} className="h-16 w-16 rounded-circle object-cover"/>
+							</th>
+							<td>{hotell.visitName}</td>
 							<td>{hotell.phone}</td>
 							<td>{hotell.address}</td>
 							<td>{hotell.location}</td>
@@ -527,9 +628,9 @@ function deleteplaces(id) {
 							<td>{hotell.price}</td>
 							<td>
 								<button
-									className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2" onClick={() => restoredeletePlaces(hotell._id)}
+									className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2" onClick={() => restoredeleteHotels(hotell._id)}
 								>
-									Trach
+									Restore
 								</button>
 							</td>
 						</tr>

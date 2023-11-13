@@ -9,13 +9,21 @@ import CarRental from './pages/CarRental';
 import Events from './pages/Events';
 import Profile from './pages/Profile';
 import Reports from './pages/Reports';
+import Loginn from './pages/Loginn';
+
+
+
+
+
 
 function App() {
   return (
     <Router>
       <Routes>
+      <Route index element={<Loginn />} />
         <Route path="/" element={<Layout />}>
-          <Route index element={<Hotels />} />
+          
+          <Route path="hotels" element={<Hotels />} />
           <Route path="restaurants" element={<Restaurants />} />
           <Route path="activities" element={<Activities />} />
           <Route path="car-rental" element={<CarRental />} />

@@ -25,3 +25,19 @@
 		@apply text-sky-500 hover:underline;
 	}
 }
+.btn-upd{
+	background-color: green !important;
+	
+}
+.btn-upd:hover{
+	background-color: green !important;
+}
+.dv-mod{
+	display: inline-block !important;
+	padding-left: 5px !important;
+}
+.trc{
+	text-align: center;
+	font-size: 26px;
+	font-weight: bold;
+}

@@ -47,7 +47,7 @@ function Hotels() {
 	}
 
 
-	//soft delete
+	//get soft delete
 	const [allhotelssoft, setallhotelssoft] = useState([]);
 
 	async function getHotelssoft() {
@@ -77,7 +77,7 @@ function Hotels() {
 		setIsLoading(true)
 		axios.post(`https://itigradiuation.onrender.com/addHotel`, values, {
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'multipart/form-data',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
 		}
@@ -95,6 +95,7 @@ function Hotels() {
 		})
 	}
 	const onSubmit = (values) => {
+		values.image = document.getElementById('image').files[0];
 		addHotels(values)
 		console.log(values);
 	};
@@ -171,16 +172,21 @@ function Hotels() {
 
 	//update hotel
 	const [previewImage, setPreviewImage] = useState(null);
+	const [editpreviewImage, seteditPreviewImage] = useState(null);
 	const [isLoadingupdate, setIsLoadingupdate] = useState(false);
 	const [apiErrorupdate, setApiErrorupdate] = useState("");
 
 	async function updateHotels(values) {
+		values.image = document.getElementById(`editImage${values._id}`).files[0];
+		if(values.image == undefined){
+			values.image = null;
+		}
 		console.log(values)
 
 		setIsLoadingupdate(true)
 		let res = await axios.patch(`https://itigradiuation.onrender.com/updateHotel/${values._id}`, values, {
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'multipart/form-data',
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
 		}
@@ -207,18 +213,22 @@ function Hotels() {
 			phone: "",
 			address: "",
 			location: "",
-			email: ""
+			email: "",
+			image:null
 		},
 
 		onSubmit: (values) => {
+			console.log(values);
 			updateHotels(values)
 		}
 	});
 
 	useEffect(() => {
 		getHotels();
+		getHotelssoft();
 		if (getHotels.length) getHotels();
-	}, [getHotels]);
+		if (getHotelssoft.length) getHotelssoft();
+	}, [getHotels,getHotelssoft]);
 
 	// start design
 
@@ -270,14 +280,18 @@ function Hotels() {
                 if (selectedFile) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
+					console.log(selectedFile)
                     setPreviewImage(reader.result);
+					//setValue('image',selectedFile)
+					
                   };
                   reader.readAsDataURL(selectedFile);
 				  
                 } else {
                   setPreviewImage(null);
                 }
-			setValue('image', previewImage)
+console.log(previewImage);
+				 setValue('image',previewImage)
 
                 // Perform additional actions as needed
                 // You can also set the value in the form state using setValue
@@ -393,7 +407,7 @@ function Hotels() {
 				<table className="min-w-full bg-white rounded-lg">
 					<thead>
 						<tr>
-							
+						<th className="px-4 py-2">Image</th>
 							<th className="px-4 py-2">Name</th>
 							<th className="px-4 py-2">phone</th>
 							<th className="px-4 py-2">adress</th>
@@ -405,9 +419,9 @@ function Hotels() {
 					<tbody>
 						{allhotels.map((hotel, index) => (
 							<tr key={index}>
-								{/* <td>
+								<td>
 									<img src={hotel.image} alt={hotel.hotelName} className="h-16 w-16 rounded-circle object-cover" />
-								</td> */}
+								</td>
 								<td>
 									{hotel.hotelName}
 								</td>
@@ -439,9 +453,9 @@ function Hotels() {
 
 
 										{/* popup */}
-										<div>
-											<Button className='mb-2' variant="primary" onClick={() => { handleShow(); getSingleHotel(hotel._id) }}>
-												Share Profile by Popup
+										<div className='dv-mod'>
+											<Button className='btn-upd'  variant="success" onClick={() => { handleShow(); getSingleHotel(hotel._id) }}>
+												Update
 											</Button>
 
 											<Modal show={show} onHide={handleClose}>
@@ -449,7 +463,51 @@ function Hotels() {
 													<Modal.Title>Share User Id</Modal.Title>
 												</Modal.Header>
 												<Modal.Body>
-													<form onSubmit={formik.handleSubmit}>
+													<form key={hotel._id} onSubmit={formik.handleSubmit}>
+													<div className="form-group mb-3">
+															<label htmlFor="userName">image</label>
+			
+															<input type="file" id={`editImage${hotel._id}`} className='form-control' onBlur={formik.handleBlur} name={`editImage${hotel._id}`} value={undefined} onChange={(e) => {formik.handleChange(e);
+                // Handle file change
+                const selectedFile = e.target.files[0];
+                console.log('Selected file:', selectedFile);
+
+                // Update preview image
+                if (selectedFile) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+					console.log(selectedFile)
+                    seteditPreviewImage(reader.result);
+					//setValue('image',selectedFile)
+					
+                  };
+                  reader.readAsDataURL(selectedFile);
+				  
+                } else {
+                  seteditPreviewImage(null);
+                }
+console.log(editpreviewImage);
+				//   setValue('image',editpreviewImage)
+															 }} />
+															 												{editpreviewImage ? (
+              <img
+                src={editpreviewImage}
+                alt="Preview"
+			
+                style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '200px' }}
+              />
+            ):(
+				<img
+				  src={hotel.image}
+				  alt="Preview"
+			  
+				  style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '200px' }}
+				/>
+			  )}
+															{formik.errors.image && formik.touched.image ? <div className='alert alert-danger'>
+																{formik.errors.image}
+															</div> : ""}
+														</div>
 														<div className="form-group mb-3">
 															<label htmlFor="userName">userName</label>
 															<input type="text" id='userName' className='form-control' onBlur={formik.handleBlur} name='hotelName' value={formik.values.hotelName} onChange={formik.handleChange} />
@@ -518,7 +576,7 @@ function Hotels() {
 				</table>
 			</div>
 
-			<h2>Trashed</h2>
+			<h1 className='trc'>Trashed</h1>
 
 			<div className="overflow-x-auto">
 				<table class="table">
@@ -538,7 +596,9 @@ function Hotels() {
 
 						{allhotelssoft.map((hotell, index) => (
 							<tr>
-								<th scope="row">1</th>
+								<th scope="row">
+									<img src={hotell.image} className="h-16 w-16 rounded-circle object-cover"/>
+								</th>
 								<td>{hotell.hotelName}</td>
 								<td>{hotell.phone}</td>
 								<td>{hotell.address}</td>
@@ -548,7 +608,7 @@ function Hotels() {
 									<button
 										className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2" onClick={() => restoredeleteHotels(hotell._id)}
 									>
-										Trach
+										Restore
 									</button>
 								</td>
 							</tr>

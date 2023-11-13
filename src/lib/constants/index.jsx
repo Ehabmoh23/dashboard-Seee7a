@@ -21,7 +21,7 @@ import {
 	{
 	  key: 'hotels',
 	  label: 'Hotels',
-	  path: '/', 
+	  path: '/hotels', 
 	  icon: <HiHome />
 	},
 	{
