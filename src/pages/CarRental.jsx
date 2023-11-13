@@ -430,8 +430,14 @@ console.log(previewImage);
 								</td>
 
 								<td>{hotel.address}</td>
-								<td>
-									{hotel.location}
+								<td >
+								<iframe
+ src={hotel.location} width="150"
+ height="100" 
+allowfullscreen="" loading="lazy" 
+referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+									
 								</td>
 								<td>
 									{hotel.email}
@@ -599,7 +605,15 @@ console.log(editpreviewImage);
 								<td>{hotell.carName}</td>
 								<td>{hotell.phone}</td>
 								<td>{hotell.address}</td>
-								<td>{hotell.location}</td>
+								<td >
+								<iframe
+ src={hotell.location} width="150"
+ height="100" 
+allowfullscreen="" loading="lazy" 
+referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+									
+								</td>
 								<td>{hotell.email}</td>
 								<td>
 									<button

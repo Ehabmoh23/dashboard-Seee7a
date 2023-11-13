@@ -416,7 +416,7 @@ console.log(previewImage);
 			</div>
 
 			<button type="submit" className="btn btn-default-outline d-block my-4 mx-auto ">
-				{isLoading ? <i className="fa fa-spin fa-spinner"></i> : <><i className="fa fa-edit"></i>Add Hotel </>}
+				{isLoading ? <i className="fa fa-spin fa-spinner"></i> : <><i className="fa fa-edit"></i>Add Place </>}
 			</button>
 		</form>
 		<div className="overflow-x-auto">
