@@ -10,6 +10,7 @@ import Events from './pages/Events';
 import Profile from './pages/Profile';
 import Reports from './pages/Reports';
 import Loginn from './pages/Loginn';
+import User from './pages/User';
 
 
 
@@ -22,7 +23,7 @@ function App() {
       <Routes>
       <Route index element={<Loginn />} />
         <Route path="/" element={<Layout />}>
-          
+        <Route path="users" element={<User />} />
           <Route path="hotels" element={<Hotels />} />
           <Route path="restaurants" element={<Restaurants />} />
           <Route path="activities" element={<Activities />} />

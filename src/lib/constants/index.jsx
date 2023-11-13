@@ -19,6 +19,13 @@ import {
 	  icon: <HiOutlineUsers />
 	},
 	{
+		key: 'users',
+		label: 'User',
+		path: '/users', 
+		icon: <HiHome />
+	  
+	},
+	{
 	  key: 'hotels',
 	  label: 'Hotels',
 	  path: '/hotels', 
