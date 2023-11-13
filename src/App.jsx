@@ -11,6 +11,8 @@ import Profile from './pages/Profile';
 import Reports from './pages/Reports';
 import Loginn from './pages/Loginn';
 import User from './pages/User';
+import ReservesHotel from './pages/ReservesHotel';
+import ReservitionResturant from './pages/ReservitionResturant';
 
 
 
@@ -25,7 +27,9 @@ function App() {
         <Route path="/" element={<Layout />}>
         <Route path="users" element={<User />} />
           <Route path="hotels" element={<Hotels />} />
+          <Route path="reservitionHotels" element={<ReservesHotel />} />
           <Route path="restaurants" element={<Restaurants />} />
+          <Route path="reservitionRestaurant" element={<ReservitionResturant />} />
           <Route path="activities" element={<Activities />} />
           <Route path="car-rental" element={<CarRental />} />
           <Route path="events" element={<Events />} />

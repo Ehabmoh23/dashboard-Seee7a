@@ -12,12 +12,7 @@ import {
   } from 'react-icons/hi';
   
   export const DASHBOARD_SIDEBAR_LINKS = [
-	{
-	  key: 'profile',
-	  label: 'Profile',
-	  path: '/profile', 
-	  icon: <HiOutlineUsers />
-	},
+	
 	{
 		key: 'users',
 		label: 'User',
@@ -32,10 +27,22 @@ import {
 	  icon: <HiHome />
 	},
 	{
+	  key: 'reservitionhotels',
+	  label: 'Reserve Hotels',
+	  path: '/reservitionhotels', 
+	  icon: <HiHome />
+	},
+	{
 	  key: 'restaurants',
 	  label: 'Restaurants',
 	  path: '/restaurants', 
 	  icon: <HiCake />
+	},
+	{
+	  key: 'reservitionRestaurant',
+	  label: 'Reserve Restaurant',
+	  path: '/reservitionRestaurant', 
+	  icon: <HiHome />
 	},
 	{
 	  key: 'car-rental',
@@ -64,17 +71,6 @@ import {
   ];
   
   export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
-	{
-	  key: 'settings',
-	  label: 'Settings',
-	  path: '/settings',
-	  icon: <HiOutlineCog />
-	},
-	{
-	  key: 'support',
-	  label: 'Help & Support',
-	  path: '/support', 
-	  icon: <HiOutlineQuestionMarkCircle />
-	}
+	
   ];
   

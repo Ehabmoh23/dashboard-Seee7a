@@ -208,6 +208,7 @@ function removeAdmin(id) {
         getAdmins()
 		getHotels();
 		getHotelssoft();
+		
 		if (getAdmins.length) getAdmins();
 
 		if (getHotels.length) getHotels();
