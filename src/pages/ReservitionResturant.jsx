@@ -10,7 +10,7 @@ export default function ReservitionResturant() {
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
 		})
-		setHotels(res.data.reservations)
+		setHotels(res.data.restaurantReservations)
 	}
     useEffect(() => {
 		getHotels()
@@ -37,16 +37,16 @@ export default function ReservitionResturant() {
                         {hotel.user.userName}
                     </td>
                     <td>
-                        {hotel.restaurantReservations.restName}
+                        {hotel.restaurant.restName}
                     </td>
 
                     <td>{hotel.user.phone}</td>
                     
                     <td>
-                        {hotel.checkInDate}
+                        {hotel.numberOfGuests}
                     </td>
                     <td>
-                        {hotel.checkOutDate}
+                        {hotel.reservationDate}
                     </td>
                     
                 </tr>

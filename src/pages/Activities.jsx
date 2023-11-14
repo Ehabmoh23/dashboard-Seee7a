@@ -448,7 +448,12 @@ console.log(previewImage);
 
 							<td>{hotel.address}</td>
 							<td>
-								{hotel.location}
+							<iframe
+ src={hotel.location} width="150"
+ height="100" 
+allowfullscreen="" loading="lazy" 
+referrerpolicy="no-referrer-when-downgrade">
+</iframe>
 							</td>
 							<td>
 								{hotel.email}
@@ -623,7 +628,14 @@ console.log(editpreviewImage);
 							<td>{hotell.visitName}</td>
 							<td>{hotell.phone}</td>
 							<td>{hotell.address}</td>
-							<td>{hotell.location}</td>
+							<td>
+							<iframe
+ src={hotell.location} width="150"
+ height="100" 
+allowfullscreen="" loading="lazy" 
+referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+							</td>
 							<td>{hotell.email}</td>
 							<td>{hotell.price}</td>
 							<td>

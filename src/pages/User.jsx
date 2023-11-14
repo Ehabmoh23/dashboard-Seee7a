@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 
 export default function User() {
 
-    
+
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -22,7 +22,7 @@ export default function User() {
 	});
 
 	const [allhotels, setallhotels] = useState([]);
-    const [allAdminss, setallAdminss] = useState([]);
+	const [allAdminss, setallAdminss] = useState([]);
 	const [singleHotel, setSingleHotel] = useState([]);
 
 	//get all hotels
@@ -36,9 +36,9 @@ export default function User() {
 		setallhotels(res.data.allUsers)
 	}
 
-    //get all admins
+	//get all admins
 
-    async function getAdmins() {
+	async function getAdmins() {
 		let res = await axios.get("https://itigradiuation.onrender.com/admin/all", {
 			headers: {
 				'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export default function User() {
 		})
 		setallAdminss(res.data.admins)
 	}
-    
+
 
 	//get soft delete
 	const [allhotelssoft, setallhotelssoft] = useState([]);
@@ -65,18 +65,18 @@ export default function User() {
 
 	useEffect(() => {
 		getHotels()
-	getHotelssoft()
-    getAdmins()
+		getHotelssoft()
+		getAdmins()
 	}, [])
 
 
 	//add hotel
 
-	
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [apiError, setApiError] = useState("");
 
-	
+
 
 	//delete hotel 
 	function deleteHotels(id) {
@@ -103,57 +103,57 @@ export default function User() {
 			});
 
 	}
-// add admin
+	// add admin
 
-function addAdmin(id) {
-    axios.put(`https://itigradiuation.onrender.com/admin/add/${id}`,[], {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem("token")
-        }
-    })
+	function addAdmin(id) {
+		axios.put(`https://itigradiuation.onrender.com/admin/add/${id}`, [], {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
+			}
+		})
 
-        .then(response => {
-            console.log(response);
-        }).catch(error => {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                console.log(error.request);
-            } else {
-                console.log('Error', error.message);
-            }
-            console.log(error.config);
-        });
+			.then(response => {
+				console.log(response);
+			}).catch(error => {
+				if (error.response) {
+					console.log(error.response.data);
+					console.log(error.response.status);
+					console.log(error.response.headers);
+				} else if (error.request) {
+					console.log(error.request);
+				} else {
+					console.log('Error', error.message);
+				}
+				console.log(error.config);
+			});
 
-}
+	}
 
-function removeAdmin(id) {
-    axios.put(`https://itigradiuation.onrender.com/admin/remove/${id}`,[], {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem("token")
-        }
-    })
+	function removeAdmin(id) {
+		axios.put(`https://itigradiuation.onrender.com/admin/remove/${id}`, [], {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem("token")
+			}
+		})
 
-        .then(response => {
-            console.log(response);
-        }).catch(error => {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                console.log(error.request);
-            } else {
-                console.log('Error', error.message);
-            }
-            console.log(error.config);
-        });
+			.then(response => {
+				console.log(response);
+			}).catch(error => {
+				if (error.response) {
+					console.log(error.response.data);
+					console.log(error.response.status);
+					console.log(error.response.headers);
+				} else if (error.request) {
+					console.log(error.request);
+				} else {
+					console.log('Error', error.message);
+				}
+				console.log(error.config);
+			});
 
-}
+	}
 	//soft delete
 	function softdeleteHotels(id) {
 		axios.put(`https://itigradiuation.onrender.com/user/softDelete/${id}`)
@@ -205,75 +205,75 @@ function removeAdmin(id) {
 
 
 	useEffect(() => {
-        getAdmins()
+		getAdmins()
 		getHotels();
 		getHotelssoft();
-		
+
 		if (getAdmins.length) getAdmins();
 
 		if (getHotels.length) getHotels();
 		if (getHotelssoft.length) getHotelssoft();
-	}, [getHotels,getHotelssoft,getAdmins]);
- 
-    //start desgin
-    return (
+	}, [getHotels, getHotelssoft, getAdmins]);
+
+	//start desgin
+	return (
 		<div className="p-4 bg-gray-100">
 
-<h1 className="text-2xl font-bold mb-4">all admin</h1>
+			<h1 className="text-2xl font-bold mb-4">all admin</h1>
 
-<div className="overflow-x-auto">
-    
-    <table className="min-w-full bg-white rounded-lg">
-        <thead>
-            <tr>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">phone</th>
-                <th className="px-4 py-2">adress</th>
-                <th className="px-4 py-2">email</th>
-                <th className="px-4 py-2">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {allAdminss.map((hotel, index) => (
-                <tr key={index}>
-                    <td>
-                        {hotel.userName}
-                    </td>
-                    <td>
-                        {hotel.phone}
-                    </td>
+			<div className="overflow-x-auto">
 
-                    <td>{hotel.address}</td>
-                    <td>
-                        {hotel.email}
-                    </td>
-                    <td>
-                        <div>
-                            <button
-                                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
-                                onClick={() => deleteHotels(hotel._id)}
-                            >
-                                Delete
-                            </button>
-                            <button
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
-                                onClick={() => softdeleteHotels(hotel._id)}
-                            >
-                                Trach
-                            </button>
+				<table className="min-w-full bg-white rounded-lg">
+					<thead>
+						<tr>
+							<th className="px-4 py-2">Name</th>
+							<th className="px-4 py-2">phone</th>
+							<th className="px-4 py-2">adress</th>
+							<th className="px-4 py-2">email</th>
+							<th className="px-4 py-2">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{allAdminss.map((hotel, index) => (
+							<tr key={index}>
+								<td>
+									{hotel.userName}
+								</td>
+								<td>
+									{hotel.phone}
+								</td>
 
-                        </div>
-                    </td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
-</div>
-<hr/>
+								<td>{hotel.address}</td>
+								<td>
+									{hotel.email}
+								</td>
+								<td>
+									<div>
+										<button
+											className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+											onClick={() => deleteHotels(hotel._id)}
+										>
+											Delete
+										</button>
+										<button
+											className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
+											onClick={() => softdeleteHotels(hotel._id)}
+										>
+											Trach
+										</button>
+
+									</div>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<hr />
 			<h1 className="text-2xl font-bold mb-4">all users</h1>
 
 			<div className="overflow-x-auto">
-                
+
 				<table className="min-w-full bg-white rounded-lg">
 					<thead>
 						<tr>
@@ -312,20 +312,38 @@ function removeAdmin(id) {
 										>
 											Trach
 										</button>
-                                        <button
-											className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
-											onClick={() => addAdmin(hotel._id)}
-										>
-											Make Admin
-										</button>
+										
+										{
+											
+											hotel.role == "user" ? (
+												<button
+													className="bg-green-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
+													onClick={() => addAdmin(hotel._id)}
+												>
+													Make Admin
+												</button>
+											) : (
+												<></>
+											)
+										}
 
-<button
-											className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
+
+										
+
+										{
+											
+											hotel.role == "user" ? (
+												<button
+											className="bg-yellow-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2"
 											onClick={() => removeAdmin(hotel._id)}
 										>
 											Remove Admin
 										</button>
-							
+											) : (
+												<></>
+											)
+										}
+
 									</div>
 								</td>
 							</tr>
@@ -351,21 +369,21 @@ function removeAdmin(id) {
 					</thead>
 					<tbody>
 						{
-                        allhotelssoft.map((hotell, index) => (
-							<tr>
-								<td>{hotell.userName}</td>
-								<td>{hotell.phone}</td>
-								<td>{hotell.address}</td>
-								<td>{hotell.email}</td>
-								<td>
-									<button
-										className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2" onClick={() => restoredeleteHotels(hotell._id)}
-									>
-										Restore
-									</button>
-								</td>
-							</tr>
-						))}
+							allhotelssoft.map((hotell, index) => (
+								<tr>
+									<td>{hotell.userName}</td>
+									<td>{hotell.phone}</td>
+									<td>{hotell.address}</td>
+									<td>{hotell.email}</td>
+									<td>
+										<button
+											className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded ml-2" onClick={() => restoredeleteHotels(hotell._id)}
+										>
+											Restore
+										</button>
+									</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 

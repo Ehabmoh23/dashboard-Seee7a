@@ -10,7 +10,7 @@ export default function ReservesHotel() {
 				'Authorization': 'Bearer ' + localStorage.getItem("token")
 			}
 		})
-		setHotels(res.data.reservations)
+		setHotels(res.data.hotelReserv)
 	}
     useEffect(() => {
 		getHotels()
